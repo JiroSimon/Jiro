@@ -1,0 +1,53 @@
+import heapq
+
+# Function to print the heap
+def print_heap(heap):
+    print(" ".join(map(str, heap)))
+
+def main():
+    # 1. Creating a Max Heap from a list:
+    max_heap = [3, 1, 4, 1, 5, 9, 2, 6]
+
+    # Use heapq to create a min heap (we will negate values to simulate max heap)
+    max_heap = [-x for x in max_heap]
+    heapq.heapify(max_heap)  # This creates a min-heap of the negated values
+
+    print("Max Heap:", end=" ")
+    print_heap([-x for x in max_heap])  # Negate values back to print the actual max heap
+
+    # 2. Inserting into the Heap:
+    heapq.heappush(max_heap, -10)  # Add a new element (negated to maintain max-heap)
+    
+    print("Max Heap after insertion:", end=" ")
+    print_heap([-x for x in max_heap])
+
+    # 3. Removing from the Heap (largest element):
+    heapq.heappop(max_heap)  # Remove the largest element (smallest in the negated min-heap)
+    
+    print("Max Heap after removal:", end=" ")
+    print_heap([-x for x in max_heap])
+
+    # 4. Min Heap (demonstration):
+    min_heap = [3, 1, 4, 1, 5, 9, 2, 6]
+
+    heapq.heapify(min_heap)  # This creates a min-heap by default
+
+    print("Min Heap:", end=" ")
+    print_heap(min_heap)
+
+    # 5. Sorting using heapq (Heap Sort):
+    unsorted = [3, 1, 4, 1, 5, 9, 2, 6]
+
+    # Create a min heap:
+    heapq.heapify(unsorted)
+
+    # Sort:
+    sorted_array = []
+    while unsorted:
+        sorted_array.append(heapq.heappop(unsorted))
+
+    print("Sorted array (using heap sort):", end=" ")
+    print_heap(sorted_array)
+
+if __name__ == "__main__":
+    main()
