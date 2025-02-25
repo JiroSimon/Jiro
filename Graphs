@@ -1,0 +1,67 @@
+import heapq
+
+# Structure to represent an edge in the graph
+class Edge:
+    def __init__(self, to, weight):
+        self.to = to
+        self.weight = weight
+
+# Function to add an edge to the graph (undirected)
+def add_edge(adj, u, v, w):
+    adj[u].append(Edge(v, w))
+    adj[v].append(Edge(u, w))  # For undirected graph
+
+# Dijkstra's Algorithm for Shortest Path (Single Source)
+def dijkstra(adj, start):
+    n = len(adj)
+    dist = [float('inf')] * n  # Initialize distances to infinity
+    dist[start] = 0
+
+    # Priority queue to store vertices and their distances (min heap)
+    pq = []
+    heapq.heappush(pq, (0, start))  # (distance, vertex)
+
+    while pq:
+        d, u = heapq.heappop(pq)
+
+        if d > dist[u]:
+            continue  # Optimization: Skip if we have a better path already
+
+        for edge in adj[u]:
+            v = edge.to
+            weight = edge.weight
+
+            if dist[u] + weight < dist[v]:
+                dist[v] = dist[u] + weight
+                heapq.heappush(pq, (dist[v], v))
+
+    return dist
+
+def main():
+    num_vertices = 6
+    adj = [[] for _ in range(num_vertices)]  # Adjacency list representation
+
+    # Build the graph (example)
+    add_edge(adj, 0, 1, 4)
+    add_edge(adj, 0, 2, 2)
+    add_edge(adj, 1, 2, 1)
+    add_edge(adj, 1, 3, 5)
+    add_edge(adj, 2, 3, 8)
+    add_edge(adj, 2, 4, 10)
+    add_edge(adj, 3, 4, 6)
+    add_edge(adj, 3, 5, 5)
+    add_edge(adj, 4, 5, 4)
+
+    start_vertex = 0
+    shortest_paths = dijkstra(adj, start_vertex)
+
+    print(f"Shortest paths from vertex {start_vertex}:")
+    for i in range(num_vertices):
+        print(f"To vertex {i}: ", end="")
+        if shortest_paths[i] == float('inf'):
+            print("Infinity")
+        else:
+            print(shortest_paths[i])
+
+if __name__ == "__main__":
+    main()
