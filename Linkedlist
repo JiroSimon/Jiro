@@ -1,72 +1,100 @@
-# Node class represents a node in the linked list
-class Node:
+# Singly Linked List Node
+class SinglyNode:
     def __init__(self, data):
-        self.data = data  # Node's data
-        self.next = None  # Pointer to the next node in the list
+        self.data = data
+        self.next = None
 
-# LinkedList class represents the linked list itself
-class LinkedList:
-    def __init__(self):
-        self.head = None  # Head of the list
+# Doubly Linked List Node
+class DoublyNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
 
-    # Method to add a new node at the end of the list
-    def append(self, data):
-        new_node = Node(data)
-        if not self.head:  # If the list is empty
-            self.head = new_node
-            return
-        last_node = self.head
-        while last_node.next:  # Traverse to the last node
-            last_node = last_node.next
-        last_node.next = new_node  # Add the new node at the end
+# Singly Linked List Functions
+def insert_singly(head, data):
+    new_node = SinglyNode(data)
+    if not head:
+        head = new_node
+    else:
+        temp = head
+        while temp.next:
+            temp = temp.next
+        temp.next = new_node
+    return head
 
-    # Method to print all the nodes in the linked list
-    def print_list(self):
-        current_node = self.head
-        while current_node:
-            print(current_node.data, end=" -> ")
-            current_node = current_node.next
-        print("None")  # End of the list
+def display_singly(head):
+    while head:
+        print(f"{head.data} -> ", end="")
+        head = head.next
+    print("None")
 
-    # Method to insert a node at the beginning of the list
-    def prepend(self, data):
-        new_node = Node(data)
-        new_node.next = self.head  # Point the new node to the current head
-        self.head = new_node  # Make the new node the head of the list
+# Doubly Linked List Functions
+def insert_doubly(head, data):
+    new_node = DoublyNode(data)
+    if not head:
+        head = new_node
+    else:
+        temp = head
+        while temp.next:
+            temp = temp.next
+        temp.next = new_node
+        new_node.prev = temp
+    return head
 
-    # Method to delete a node by value
-    def delete_node(self, key):
-        current_node = self.head
+def display_doubly(head):
+    while head:
+        print(f"{head.data} <-> ", end="")
+        head = head.next
+    print("None")
 
-        # If the node to be deleted is the head
-        if current_node and current_node.data == key:
-            self.head = current_node.next
-            current_node = None
-            return
+# Circular Linked List Functions
+def insert_circular(head, data):
+    new_node = SinglyNode(data)
+    if not head:
+        head = new_node
+        new_node.next = head  # Point to itself for circularity
+    else:
+        temp = head
+        while temp.next != head:  # Traverse until you reach the head again
+            temp = temp.next
+        temp.next = new_node
+        new_node.next = head  # Make the last node point to the head
+    return head
 
-        # Search for the node to be deleted
-        prev_node = None
-        while current_node and current_node.data != key:
-            prev_node = current_node
-            current_node = current_node.next
+def display_circular(head):
+    if not head:
+        return
+    temp = head
+    while True:
+        print(f"{temp.data} -> ", end="")
+        temp = temp.next
+        if temp == head:  # Stop when you reach the head again
+            break
+    print(" (Back to Head)")
 
-        # If the key is not found
-        if current_node is None:
-            print(f"Node with value {key} not found.")
-            return
+# Main function to test the code
+if __name__ == "__main__":
+    # Singly Linked List
+    singly_head = None
+    singly_head = insert_singly(singly_head, 10)
+    singly_head = insert_singly(singly_head, 20)
+    singly_head = insert_singly(singly_head, 30)
+    print("Singly Linked List: ", end="")
+    display_singly(singly_head)
 
-        # Unlink the node from the list
-        prev_node.next = current_node.next
-        current_node = None
+    # Doubly Linked List
+    doubly_head = None
+    doubly_head = insert_doubly(doubly_head, 100)
+    doubly_head = insert_doubly(doubly_head, 200)
+    doubly_head = insert_doubly(doubly_head, 300)
+    print("Doubly Linked List: ", end="")
+    display_doubly(doubly_head)
 
-# Example usage
-ll = LinkedList()
-ll.append(10)
-ll.append(20)
-ll.append(30)
-ll.prepend(5)
-
-ll.print_list()  # Output: 5 -> 10 -> 20 -> 30 -> None
-
-ll.delete_node(20)
-ll.print_list()  # Output: 5 -> 10 -> 30 -> None
+    # Circular Linked List
+    circular_head = None
+    circular_head = insert_circular(circular_head, 1)
+    circular_head = insert_circular(circular_head, 2)
+    circular_head = insert_circular(circular_head, 3)
+    print("Circular Linked List: ", end="")
+    display_circular(circular_head)
