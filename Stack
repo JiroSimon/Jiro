@@ -1,0 +1,64 @@
+# Function to reverse a string using a stack
+def reverse_string(s):
+    stack = []
+    for c in s:
+        stack.append(c)
+    reversed_str = ""
+    while stack:
+        reversed_str += stack.pop()
+    return reversed_str
+
+# Function to check for balanced parentheses using a stack
+def is_balanced(s):
+    stack = []
+    for c in s:
+        if c in "({[":
+            stack.append(c)
+        elif c in ")}]":
+            if not stack:
+                return False  # Unmatched closing parenthesis
+            top = stack.pop()
+            if (c == ')' and top != '(') or (c == '}' and top != '{') or (c == ']' and top != '['):
+                return False  # Mismatched parentheses
+    return not stack  # All parentheses should be matched
+
+def main():
+    # 1. String Reversal
+    str_to_reverse = "Hello, Stack!"
+    reversed_str = reverse_string(str_to_reverse)
+    print(f"Reversed string: {reversed_str}")
+
+    # 2. Balanced Parentheses Check
+    balanced_str = "{[()]}"
+    unbalanced_str = "{[(])}"
+    print(f"Balanced string check: {is_balanced(balanced_str)}")   # Output: True
+    print(f"Unbalanced string check: {is_balanced(unbalanced_str)}") # Output: False
+
+    # 3. Stack Operations (Demonstration)
+    stack = []
+    stack.append(10)
+    stack.append(20)
+    stack.append(30)
+
+    print("\nStack operations:")
+    print(f"Top element: {stack[-1]}")  # Output: 30
+    print(f"Stack size: {len(stack)}")   # Output: 3
+    stack.pop()
+    print(f"Top element after pop: {stack[-1]}")  # Output: 20
+    print(f"Is stack empty? {len(stack) == 0}")  # Output: False
+
+    # 4. Converting Decimal to Binary using Stack:
+    decimal_num = 25
+    binary_stack = []
+
+    while decimal_num > 0:
+        binary_stack.append(decimal_num % 2)
+        decimal_num //= 2
+
+    print("\nBinary representation of 25: ", end="")
+    while binary_stack:
+        print(binary_stack.pop(), end="")
+    print()  # Output: 11001
+
+if __name__ == "__main__":
+    main()
